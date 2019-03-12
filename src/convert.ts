@@ -61,8 +61,7 @@ import {
   isIdentifier
 } from '@babel/types'
 import { generateFreeIdentifier } from './utils'
-import { Warning } from '.';
-
+import { Warning } from '.'
 
 export function typeAliasToTsTypeAliasDeclaration(
   node: TypeAlias,
@@ -255,6 +254,7 @@ export function toTsType(node: FlowType | TypeAnnotation, warnings: Warning[]): 
     // @ts-ignore
     return node
   }
+
   switch (node.type) {
     // @ts-ignore
     case 'Identifier':
@@ -294,6 +294,20 @@ export function toTsType(node: FlowType | TypeAnnotation, warnings: Warning[]): 
           // Rename to 'Readonly'
           node.id.name = 'Readonly'
           return toTsType(node, warnings)
+        } else if (node.id.name === '$Values') {
+          const xNode = node.typeParameters!.params[0]
+          // @ts-ignore
+          if (xNode.argument) {
+            // @ts-ignore
+            const newNode = xNode.argument
+            newNode.id.name = `${newNode.id.name}[keyof ${newNode.id.name}]`
+            return toTsType(newNode, warnings)
+          }
+        } else if (node.id.name === '$Keys') {
+          const newNode = node.typeParameters!.params[0]
+          // @ts-ignore
+          newNode.id.name = `keyof ${newNode.id.name}`
+          return toTsType(newNode, warnings)
         } else if (node.typeParameters && node.typeParameters.params.length) {
           return tsTypeReference(
             toTsTypeName(node.id),

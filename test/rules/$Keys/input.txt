@@ -1,0 +1,4 @@
+/* @flow */
+
+function Test(a: $Keys<A>) { }
+
