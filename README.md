@@ -20,6 +20,17 @@ npm install flow-to-typescript --save
 
 ## Usage
 
+### Node
+```sh
+yarn start my/file.js.flow
+
+# Convert all files in glob pattern (.js will be renamed to .tsx)
+yarn start -d ~/sandbox/my-flow-project -r "src/**/**.js"
+
+```
+
+
+
 ### CLI
 
 ```sh
@@ -70,13 +81,15 @@ compile(file, path).then(ts =>
 |   ✅  | Casting     | `(a: A)`                                | `(a as A)` |
 |   ✅  | Import default type | `import type A from './b'`          | `import A from './b'` |
 |   ✅  | Import named type | `import type { A } from './b'`          | `import { A } from './b'` |
+|   ✅  | Import inline type | `import { A, type B } from './b'`          | `import { A, B } from './b'` |
+
 
 ### Utilities
 
 | Done? |             | Flow                                    | TypeScript |
 |-------|-------------|-----------------------------------------|------------|
-|       | Keys        | `$Keys<A>`                              | `keyof A` |
-|       | Values      | `$Values<A>`                            | `A[keyof A]` |
+|   ✅  | Keys        | `$Keys<A>`                              | `keyof A` |
+|   ✅  | Values      | `$Values<A>`                            | `A[keyof A]` |
 |   ✅  | ReadOnly    | `$ReadOnly<A>`                          | `Readonly<A>` |
 |   ✅  | Exact       | `$Exact<A>`                             | `A` |
 |       | Difference  | `$Diff<A, B>`                           | TODO` |
@@ -90,6 +103,12 @@ compile(file, path).then(ts =>
 |       | Supertype   | `$Supertype<A>`                         | `any` (warn - vote for https://github.com/Microsoft/TypeScript/issues/14520) |
 |       | Subtype     | `$Subtype<A>`                           | `B extends A` |
 |       | Existential type | `*`                                | `any` (warn - vote for https://github.com/Microsoft/TypeScript/issues/14466) |
+
+
+### React Support
+| Done? |             | Flow                                    | TypeScript |
+|-------|-------------|-----------------------------------------|------------|
+|       | constructor obtaining type from Component<P, S>        | Component<P, S> { constructor() {} }                             | `Component<P, S> { constructor(p: P, s: S) {} }     ` |
 
 
 ✅ Done
