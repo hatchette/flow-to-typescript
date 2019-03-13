@@ -1,3 +1,5 @@
 /* @flow */
 
 let x: $Values<typeof A> = A.n
+
+export const c = (bb: $Values<typeof B>) => (dispatch: Dispatch<void>) => {}

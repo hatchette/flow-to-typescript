@@ -1,1 +1,2 @@
 let x: A[keyof A] = A.n;
+export const c = (bb: B[keyof B]) => (dispatch: Dispatch<undefined>) => {};

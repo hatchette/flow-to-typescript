@@ -36,9 +36,11 @@ export async function compile(code: string, filename: string) {
     )
   })
 
-  return addTrailingSpace(
-    trimLeadingNewlines(generate(stripAtFlowAnnotation(ast)).code)
-  )
+  let output = generate(stripAtFlowAnnotation(ast)).code
+  output = trimLeadingNewlines(output)
+  output = addTrailingSpace(output)
+
+  return output
 }
 
 /**
@@ -74,7 +76,7 @@ export async function convert<T extends Node>(ast: T): Promise<[Warning[], T]> {
       } else {
         const oldVis = agg[k]
         agg[k] = (...args: any[]) => {
-          // @ts-ignore: ts doesn't think this is a function because of funky Visitor<T> type 
+          // @ts-ignore: ts doesn't think this is a function because of funky Visitor<T> type
           oldVis(...args)
           // @ts-ignore
           vis[k](...args)

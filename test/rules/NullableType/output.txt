@@ -1,0 +1,4 @@
+import { Test, Test2 } from '../types/TestX';
+type TestProps = {
+  event: EventModel | null | undefined;
+};

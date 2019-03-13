@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-
 import minimist = require('minimist')
 import { readFile, readFileSync, writeFileSync, writeFile } from 'mz/fs'
 import { resolve } from 'path'
@@ -56,7 +55,7 @@ async function compileAll(workingDir: string, globPattern: string) {
   const x = resolve(process.cwd(), workingDir, globPattern)
   const files = sync(x)
 
-  for(let i=0; i < files.length; i++){
+  for (let i = 0; i < files.length; i++){
     const file: string = files[i]
 
     if (!file.endsWith('.js')) {
@@ -64,7 +63,7 @@ async function compileAll(workingDir: string, globPattern: string) {
     } else {
       await convertFile(workingDir, file)
     }
-  }   
+  }
 }
 
 async function convertFile(workingDir: string, inFile: string) {
@@ -74,14 +73,14 @@ async function convertFile(workingDir: string, inFile: string) {
     const flow = readFileSync(inFile, 'utf-8')
     console.log(`${inFile} ===>> ${outFile}  (${workingDir})`)
     const ts = await compile(flow, inFile)
-  
+
     if (ts && ts !== flow) {
       writeFileSync(inFile, ts)
       await exec(`git -C ${workingDir} mv ${inFile} ${outFile}`)
     } else {
       console.log('Did Nothing.')
     }
-  
+
   } catch (e) {
     console.error(`Error ${e} --- ${inFile} `)
   }

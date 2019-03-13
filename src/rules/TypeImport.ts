@@ -1,15 +1,30 @@
 import {
   importDeclaration,
   ExportNamedDeclaration,
-  exportNamedDeclaration
+  exportNamedDeclaration,
+  importSpecifier
 } from '@babel/types'
 import { addRule } from '../'
 
 addRule('TypeImport', () => ({
   ImportDeclaration(path) {
-    if ((path as any).node.importKind === 'type') {
+    const importKind = (path as any).node.importKind
+    if (importKind === 'type') {
       path.replaceWith(
         importDeclaration(path.node.specifiers, path.node.source)
+      )
+    } else if (importKind === 'value') {
+      const newSpecifiers: any[] = []
+      path.node.specifiers.forEach(specifier => {
+        if (specifier.type === 'ImportSpecifier') {
+          newSpecifiers.push(importSpecifier(specifier.local, specifier.imported))
+        } else {
+          newSpecifiers.push(specifier)
+        }
+      })
+
+      path.replaceWith(
+          importDeclaration(newSpecifiers, path.node.source)
       )
     }
   },
