@@ -1,8 +1,8 @@
 import { addRule } from '..'
 import { toTs } from '../convert'
 
-addRule('TypeAnnotation', (warnings) => ({
+addRule('TypeAnnotation', () => ({
   TypeAnnotation(path) {
-    path.replaceWith(toTs(path.node, warnings))
+    path.replaceWith(toTs(path.node))
   }
 }))
