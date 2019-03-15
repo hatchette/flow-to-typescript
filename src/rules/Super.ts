@@ -8,7 +8,7 @@ addRule('Super', () => ({
         const superCallExpression = path.parentPath
 
         // @ts-ignore
-        if (path.node.type === 'Super' && classNode.type === 'ClassMethod' && classNode.kind === 'constructor' && classNode.params.length > 0 && classNode.params.length <= 2 && superCallExpression.node.arguments.length === 0) {
+        if (path.node.type === 'Super' && classNode.type === 'ClassMethod' && classNode.kind === 'constructor' && classNode.params.length > 0 && classNode.params.length <= 2 && superCallExpression.node.arguments.length !== classNode.params.length) {
             const newParams: any = []
             classNode.params.forEach((param: any) => {
                 if (param.name.startsWith('props')) {

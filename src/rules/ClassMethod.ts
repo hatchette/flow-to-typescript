@@ -8,16 +8,16 @@ import {
 addRule('ClassMethod', () => ({
     ClassMethod(path) {
         const classNode: any = path.parentPath.parent
-
-        if (path.node.type === 'ClassMethod' && path.node.kind === 'constructor' && classNode.superClass.name === 'Component' && classNode.superTypeParameters.params.length > 0 && path.node.params.length !== classNode.superTypeParameters.params.length) {
+        if (path.node.type === 'ClassMethod' && path.node.kind === 'constructor' && classNode.superClass && classNode.superClass.name === 'Component' && classNode.superTypeParameters.params.length > 0 && path.node.params.length !== classNode.superTypeParameters.params.length) {
             const newParams: any = []
             let first = true
             classNode.superTypeParameters.params.forEach((param: any) => {
-                // @ts-ignore
-                const value: string = param.id.name
-                let name = first ? 'props' : 'state'
-                first = false
-                newParams.push(identifier(`${name}: ${value}`))
+                if (param.id && param.id.name) {
+                    const value: string = param.id.name
+                    let name = first ? 'props' : 'state'
+                    first = false
+                    newParams.push(identifier(`${name}: ${value}`))
+                }
             })
             const c: ClassMethod = path.node
 
