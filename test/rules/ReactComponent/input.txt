@@ -1,0 +1,7 @@
+export default class C extends Component<CProps, CState> {
+  property: ?number
+
+  constructor() {
+    super()
+  }
+}

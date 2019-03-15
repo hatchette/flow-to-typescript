@@ -1,0 +1,6 @@
+export default class C extends Component<CProps, CState> {
+  constructor(props: CProps, state: CState) {
+    super(props, state);
+  }
+
+}

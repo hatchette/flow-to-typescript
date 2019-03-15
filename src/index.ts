@@ -25,6 +25,7 @@ export async function compile(code: string, filename: string) {
     plugins: ['classProperties', 'flow', 'objectRestSpread', 'optionalChaining', 'jsx'],
     sourceType: 'module'
   })
+
   let [warnings, ast] = await convert(parsed)
 
   warnings.forEach(([message, issueURL, line, column]) => {
