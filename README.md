@@ -108,7 +108,7 @@ compile(file, path).then(ts =>
 ### React Support
 | Done? |             | Flow                                    | TypeScript |
 |-------|-------------|-----------------------------------------|------------|
-|       | constructor obtaining type from Component<P, S>        | Component<P, S> { constructor() {} }                             | `Component<P, S> { constructor(p: P, s: S) {} }     ` |
+|   ✅  | constructor obtaining type from Component<P, S>        | Component<P, S> { constructor() {} }                             | `Component<P, S> { constructor(p: P, s: S) {} }     ` |
 
 
 ✅ Done
