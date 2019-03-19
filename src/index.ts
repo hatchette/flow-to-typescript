@@ -43,9 +43,12 @@ export async function compile(code: string, filename: string) {
     )
   })
 
-  return addTrailingSpace(
-    trimLeadingNewlines(generate(stripAtFlowAnnotation(ast)).code)
-  )
+  let converted = generate(stripAtFlowAnnotation(ast)).code
+  converted = trimLeadingNewlines(converted)
+  converted = addTrailingSpace(converted)
+  converted = fixComments(converted)
+
+  return converted
 }
 
 /**
@@ -100,6 +103,10 @@ function stripAtFlowAnnotation(ast: File): File {
     }
   }
   return ast
+}
+
+function fixComments(file: string): string {
+    return file.replace(new RegExp(/(.*\}|\);)\s(\/\/.*)\n/g), '$1\n\n$2')
 }
 
 function addTrailingSpace(file: string): string {

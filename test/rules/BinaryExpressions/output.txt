@@ -1,0 +1,4 @@
+var a = 5 + (4 * 3);
+var b = (5 + 4) * 3;
+var c = x && (y || z);
+var d = (x && y) || z;

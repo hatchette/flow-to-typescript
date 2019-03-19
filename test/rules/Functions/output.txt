@@ -13,7 +13,11 @@ export default function Functions3(a: number, b: A & B, {
   return "";
 }
 
+//// test comment
 function Functions4(a: string, b: C | ((d: E) => F), g: G) {
+  x();
+
+// test
   return '';
 }
 
