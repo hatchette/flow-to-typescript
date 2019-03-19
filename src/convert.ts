@@ -307,6 +307,9 @@ export function _toTsType(node: FlowType | Node): TSType {
                             node.typeParameters.params.map(p => toTsType(p))
                         )
                     )
+                } else if (node.id.name === 'Object') {
+                    node.id.name = 'any'
+                    return toTsType(node)
                 }
             }
             return tsTypeReference(toTsTypeName(node.id))

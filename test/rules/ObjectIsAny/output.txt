@@ -1,0 +1,5 @@
+class X {
+  z: any;
+}
+
+function foo(bar: any) {}

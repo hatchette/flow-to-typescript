@@ -1,0 +1,6 @@
+class X {
+  z: Object
+}
+
+function foo(bar: Object) {
+}
