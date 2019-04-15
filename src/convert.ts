@@ -446,10 +446,13 @@ function functionToTsType(node: FunctionTypeAnnotation): TSFunctionType {
     if (node.returnType && !returnTypeType) {
         throw new Error(`Could not convert return type '${node.returnType.type}'`)
     }
+
     let f = tsFunctionType(
         typeParams,
+        [],
         node.returnType ? tsTypeAnnotation(returnTypeType as any) : undefined
     )
+
     // Params
     if (node.params) {
         let paramNames = node.params

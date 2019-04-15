@@ -6,7 +6,7 @@ type Functions2 = (a: number, string) => string
 
 type Functions3 = (...args: string[]) => string;
 
-export default function Functions3(
+export default function Functions6(
   a: number,
   b: {| ...A, ...B |},
   {
