@@ -12,17 +12,15 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "build:watch": "tsc -w",
     "clean": "rm -rf ./dist",
     "lint": "tslint src/**/*.ts && npm run prettier:check",
     "prettier": "prettier 'src/**/*.[tj]s'",
     "prettier:fix": "npm run prettier --write",
     "prettier:check": "npm run prettier -l",
     "prepublishOnly": "npm run clean && npm run lint && npm run build -- -d",
-    "pretest": "npm run build",
-    "test": "jest ./test",
+    "test": "jest",
     "test:debug": "node --inspect-brk ./node_modules/ava/profile.js ./dist/test/test.js",
-    "test:watch": "ava -w",
+    "test:watch": "jest --watch",
     "start": "node ./dist/src/cli.js"
   },
   "dependencies": {
