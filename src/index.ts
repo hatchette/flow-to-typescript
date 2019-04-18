@@ -23,11 +23,11 @@ export async function compile(code: string, filename: string) {
   const parsed = parse(code, {
     plugins: [
         'classProperties',
-        'flow',
         'objectRestSpread',
         'optionalChaining',
         'nullishCoalescingOperator',
-        'jsx'
+        'jsx',
+        'flow'
     ],
     sourceType: 'module'
   })
