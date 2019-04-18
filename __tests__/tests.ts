@@ -92,6 +92,10 @@ describe('rules', () => {
     it('Variance', async() => {
         await compareInputOutput('./__tests__/rules/Variance')
     })
+
+    it('OptionalChaining', async() => {
+        await compareInputOutput('./__tests__/rules/OptionalChaining')
+    })
 })
 
 

@@ -51,13 +51,13 @@ export async function compile(code: string, filename: string) {
 }
 
 function removeDuplicateCommentFromPreviousSibling(path: any) {
-  if (path.node.leadingComments && path.node.leadingComments.length === 1) {
+  if (path.node.leadingComments && path.node.leadingComments.length > 0) {
     const parentNode: any = path.parentPath.node
     if (parentNode && parentNode.body && parentNode.body.findIndex) {
       const parentNodeIndex = parentNode.body.findIndex((n: any) => n === path.node)
       if (parentNodeIndex > 0) {
         const previousNode = parentNode.body[parentNodeIndex - 1]
-        if (previousNode.trailingComments.length === 1 && path.node.leadingComments[0] === previousNode.trailingComments[0]) {
+        if (previousNode.trailingComments.length > 0 && path.node.leadingComments[0] === previousNode.trailingComments[0]) {
           previousNode.trailingComments = []
         }
       }

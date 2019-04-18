@@ -23,6 +23,8 @@ function Functions4(a: string, b: C | ((d: E) => F), g: G) {
 function deprecate(fn: (...input: Array<any>) => string, message: string) {
   const b = fn().x();
   // do something else
+  // really
+  // i'm serious
   const a = b * 100;
   // magic?
   console.log(a);

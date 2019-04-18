@@ -1,0 +1,4 @@
+// @flow
+function f(x) {
+  return { a: 5, icon: x?.icon }
+}
