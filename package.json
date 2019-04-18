@@ -21,7 +21,7 @@
     "test": "jest",
     "test:debug": "node --inspect-brk ./node_modules/ava/profile.js ./dist/test/test.js",
     "test:watch": "jest --watch",
-    "start": "node ./dist/src/cli.js"
+    "start": "tsc && node ./dist/src/cli.js"
   },
   "dependencies": {
     "@babel/generator": "^7.4.0",
