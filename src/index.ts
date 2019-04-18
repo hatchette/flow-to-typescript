@@ -56,7 +56,7 @@ export async function compile(code: string, filename: string) {
 export async function convert<T extends Node>(ast: T): Promise<[Warning[], T]> {
   // load rules directory
   await Promise.all(
-    sync(resolve(__dirname, './rules/*.js')).map(_ => import(_))
+    sync(resolve(__dirname, './rules/*.[t|j]s')).map(_ => import(_))
   )
 
   let warnings: Warning[] = []

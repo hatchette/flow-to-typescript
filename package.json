@@ -20,8 +20,7 @@
     "prettier:check": "npm run prettier -l",
     "prepublishOnly": "npm run clean && npm run lint && npm run build -- -d",
     "pretest": "npm run build",
-    "tdd": "concurrently -k 'npm run build:watch' 'npm run test:watch'",
-    "test": "ava --verbose",
+    "test": "jest ./test",
     "test:debug": "node --inspect-brk ./node_modules/ava/profile.js ./dist/test/test.js",
     "test:watch": "ava -w",
     "start": "node ./dist/src/cli.js"
@@ -42,12 +41,14 @@
     "@types/lodash": "^4.14.119",
     "@types/minimist": "^1.2.0",
     "@types/mz": "^0.0.32",
-    "ava": "^1.0.1",
-    "concurrently": "^4.1.0",
+    "@types/jest": "^24.0.11",
+    "@types/jest-cli": "^23.6.0",
     "flow-bin": "^0.89.0",
     "prettier": "^1.15.3",
     "tslint": "^5.12.0",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.3",
+    "jest": "^24.7.1",
+    "ts-jest": "^24.0.2"
   },
   "ava": {
     "files": [
