@@ -50,6 +50,19 @@ export async function compile(code: string, filename: string) {
   return converted
 }
 
+function removeDuplicateCommentFromPreviousSibling(path: any) {
+  if (path.node.leadingComments && path.node.leadingComments.length === 1) {
+    const parentNode: any = path.parentPath.node
+    const parentNodeIndex = parentNode.body.findIndex((n: any) => n === path.node)
+    if (parentNodeIndex > 0) {
+      const previousNode = parentNode.body[parentNodeIndex - 1]
+      if (previousNode.trailingComments.length === 1 && path.node.leadingComments[0] === previousNode.trailingComments[0]) {
+        previousNode.trailingComments = []
+      }
+    }
+  }
+}
+
 /**
  * @internal
  */
@@ -69,28 +82,35 @@ export async function convert<T extends Node>(ast: T): Promise<[Warning[], T]> {
     'Indexer',
     'TypeAlias'
   ]
-    const keys = [...rules.keys()]
-    const all = [...order, ...keys.filter(k => order.indexOf(k) < 0)]
-    const visitor: { [key: string]: any } = {}
-    all.forEach(i => {
-        const visGen = rules.get(i)!
-        if (!visGen) return
-        const vis = visGen(warnings)
-        Object.keys(vis).forEach(k => {
-            if (!visitor[k]) {
-                visitor[k] = (vis as any)[k]
-            } else {
-                const oldVis = visitor[k]
-                visitor[k] = (...args: any[]) => {
-                    oldVis(...args)
-                    ;(vis as any)[k](...args)
-                }
-            }
-        })
-    })
-    traverse(ast, visitor)
 
-    return [warnings, ast]
+  const keys = [...rules.keys()]
+  const all = [...order, ...keys.filter(k => order.indexOf(k) < 0)]
+  const visitor: { [key: string]: any } = {}
+  all.forEach(i => {
+      const visGen = rules.get(i)!
+      if (!visGen) return
+      const vis = visGen(warnings)
+      Object.keys(vis).forEach(k => {
+          if (!visitor[k]) {
+              visitor[k] = (vis as any)[k]
+          } else {
+              const oldVis = visitor[k]
+              visitor[k] = (...args: any[]) => {
+                  oldVis(...args)
+                  ;(vis as any)[k](...args)
+              }
+          }
+      })
+  })
+
+  traverse(ast, visitor)
+  traverse(ast, {
+    enter(path: any) {
+      return removeDuplicateCommentFromPreviousSibling(path)
+    }
+  })
+
+  return [warnings, ast]
 }
 
 function stripAtFlowAnnotation(ast: File): File {
