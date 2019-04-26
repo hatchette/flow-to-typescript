@@ -1,5 +1,5 @@
 export default class C extends Component<CProps, CState> {
-  property: number | null | undefined;
+  property: number | null;
 
   constructor(props: CProps, state: CState) {
     super(props, state);

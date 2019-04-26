@@ -323,8 +323,7 @@ export function _toTsType(node: FlowType | Node): TSType {
         case 'NullableTypeAnnotation':
             return tsUnionType([
                 toTsType(node.typeAnnotation),
-                tsNullKeyword(),
-                tsUndefinedKeyword()
+                tsNullKeyword()
             ])
         case 'NumberLiteralTypeAnnotation':
             return tsLiteralType(numericLiteral(node.value!))

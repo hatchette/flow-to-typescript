@@ -65,7 +65,7 @@ compile(file, path).then(ts =>
 
 | Done? |             | Flow                                    | TypeScript |
 |-------|-------------|-----------------------------------------|------------|
-|   ✅  | Maybe       | `?type` (NullableTypeAnnotation)        | `type \| null \| undefined` |
+|   ✅  | Maybe       | `?type` (NullableTypeAnnotation)        | `type \| null` |
 |   ✅  | Null        | `null`                                  | `null` |
 |   ✅  | Undefined   | `typeof undefined`                      | `undefined` |
 |   ✅  | Mixed       | `mixed`                                 | `unknown` |
