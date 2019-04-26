@@ -3,6 +3,7 @@
 import {
   isCallExpression,
   conditionalExpression,
+  binaryExpression,
   nullLiteral,
   // @ts-ignore missing in typedef
   cloneNode
@@ -52,7 +53,7 @@ addRule('OptionalChaining', () => ({
 
       replacementPath.replaceWith(
         conditionalExpression(
-          cloneNode(chain),
+          binaryExpression('==', cloneNode(chain), nullLiteral()),
           nullLiteral(),
           replacementPath.node
         )
