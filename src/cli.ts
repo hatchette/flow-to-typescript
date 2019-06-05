@@ -11,6 +11,7 @@ import { exec } from 'child_process'
 main(
   minimist(process.argv.slice(2), {
     alias: {
+      renameOnly: ['n'],
       workingDirectory: ['d'],
       globPattern: ['r'],
       help: ['h'],
@@ -28,7 +29,7 @@ async function main(argv: minimist.ParsedArgs) {
 
   if (argv.globPattern) {
     try {
-      await compileAll(argv.d, argv.r)
+      await compileAll(argv.d, argv.r, argv.n)
       process.exit(0)
       return
     } catch (e) {
@@ -51,32 +52,35 @@ async function main(argv: minimist.ParsedArgs) {
   }
 }
 
-async function compileAll(workingDir: string, globPattern: string) {
+async function compileAll(workingDir: string, globPattern: string, renameOnly: boolean) {
   const x = resolve(process.cwd(), workingDir, globPattern)
   const files = sync(x)
 
   for (let i = 0; i < files.length; i++){
     const file: string = files[i]
 
-    if (!file.endsWith('.js')) {
-      console.log(`Ignoring: ${file}`)
-    } else {
-      await convertFile(workingDir, file)
-    }
+    await convertFile(workingDir, file, renameOnly)
   }
 }
 
-async function convertFile(workingDir: string, inFile: string) {
+async function convertFile(workingDir: string, inFile: string, renameOnly: boolean) {
   const outFile = inFile.substring(0, inFile.length - '.js'.length) + '.tsx'
+  if (renameOnly) {
+    await exec(`git -C ${workingDir} mv ${inFile} ${outFile}`)
+    console.log(`Rename: ${inFile} ===>> ${outFile}  (${workingDir})`)
+    return
+  }
 
   try {
     const flow = readFileSync(inFile, 'utf-8')
     console.log(`${inFile} ===>> ${outFile}  (${workingDir})`)
     const ts = await compile(flow, inFile)
-
+    
     if (ts && ts !== flow) {
       writeFileSync(inFile, ts)
-      await exec(`git -C ${workingDir} mv ${inFile} ${outFile}`)
+      if (inFile.endsWith('.js')) {
+        await exec(`git -C ${workingDir} mv ${inFile} ${outFile}`)
+      }
     } else {
       console.log('Did Nothing.')
     }
